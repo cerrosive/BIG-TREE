@@ -60,5 +60,13 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
     }
+
+    public void CloudJump()
+    {
+        if(rb.linearVelocity.y < 2f)
+        {
+            rb.linearVelocityY += 0.5f / Time.deltaTime;
+        }
+    }
 }
 
