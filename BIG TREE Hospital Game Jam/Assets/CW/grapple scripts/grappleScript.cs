@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
@@ -66,67 +67,25 @@ public class grappleScript : MonoBehaviour
         float distance = Vector2.Distance(playerPos.position, mousePosition);
 
         //cap distance
-        Vector3 targetPosition;
-
         if (distance > maxDistance)
         {
-            targetPosition = playerPos.position + (Vector3)direction * maxDistance;
+            grappleTarget = playerPos.position + (Vector3)direction * maxDistance;
         }
         else
         {
-            targetPosition = mousePosition;
+            grappleTarget = mousePosition;
         }
 
-        grappleTarget = targetPosition;
-
-
-        //check for grapple point
-        Collider2D[] nearbyPoints = Physics2D.OverlapCircleAll(grappleTarget, grapplePointSnapRadius, grapplePointLayer);
-
-        if (nearbyPoints.Length > 0)
-        {
-            Transform closestPoint = null;
-            float closestDistance = float.MaxValue;
-
-            foreach (var point in  nearbyPoints)
-            {
-                float dist = Vector2.Distance(targetPosition, point.transform.position);
-
-                if (dist < closestDistance)
-                {
-                    closestDistance = dist;
-                    closestPoint = point.transform;
-                }
-            }
-
-
-            hookedPoint = closestPoint;
-            grappleTarget = closestPoint.position;
-            grappleAim.position = grappleTarget;
-            isGrappling = true;
-
-
-            //line renderer
-            if (grappleLine != null)
-            {
-                grappleLine.enabled = true;
-                grappleLine.SetPosition(0, playerPos.position);
-                grappleLine.SetPosition(1, grappleTarget);
-            }
-        }
-        else
-        {
-            grappleTarget = targetPosition;
-            StartCoroutine(ShootAndRetract());
-        }
+        StartCoroutine(ShootAndCheckForHooks());
     }
 
 
-    IEnumerator ShootAndRetract()
+    IEnumerator ShootAndCheckForHooks()
     {
         isShooting = true;
         float t = 0;
         Vector3 startPos = playerPos.position;
+        bool hooked = false;
 
 
         if (grappleLine != null)
@@ -140,27 +99,81 @@ public class grappleScript : MonoBehaviour
         {
             t += Time.deltaTime * grappleSpeed;
             grappleAim.position = Vector3.Lerp(startPos, grappleTarget, t);
+
+            if (grappleLine != null)
+            {
+                grappleLine.SetPosition(0, playerPos.position);
+                grappleLine.SetPosition(1, grappleAim.position);
+            }
+
+            Collider2D[] nearbyPoints = Physics2D.OverlapCircleAll(grappleAim.position, grapplePointSnapRadius, grapplePointLayer);
+
+            if (nearbyPoints.Length > 0)
+            {
+                Transform closestPoint = null;
+                float closestDistance = float.MaxValue;
+
+                foreach (var point in nearbyPoints)
+                {
+                    float dist = Vector2.Distance(grappleAim.position, point.transform.position);
+                    if (dist < closestDistance)
+                    {
+                        closestDistance = dist;
+                        closestPoint = point.transform;
+                    }
+                }
+
+                if (closestPoint != null)
+                {
+                    hooked = true;
+                    hookedPoint = closestPoint;
+                    grappleTarget = closestPoint.position;
+                    grappleAim.position = grappleTarget;
+                    isGrappling = true;
+                    isShooting = false;
+
+                    if (grappleLine != null)
+                    {
+                        grappleLine.SetPosition(1, grappleTarget);
+                    }
+
+                    yield break;
+                }
+            }
+
             yield return null;
         }
 
         yield return new WaitForSeconds(0.1f);
 
-        //retract
-        t = 0;
-        while (t < 1)
+
+        if(!hooked)
         {
-            t += Time.deltaTime * grappleSpeed * 1.5f;
-            grappleAim.position = Vector3.Lerp(grappleTarget, playerPos.position, t);
-            yield return null;
-        }
+            yield return new WaitForSeconds(0.1f);
+
+            //retract
+            t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime * grappleSpeed * 1.5f;
+                grappleAim.position = Vector3.Lerp(grappleTarget, playerPos.position, t);
+
+                if (grappleLine != null)
+                {
+                    grappleLine.SetPosition(1, grappleAim.position);
+                }
+
+                yield return null;
+            }
 
 
-        grappleAim.position = playerPos.position;
-        isShooting = false;
+            grappleAim.position = playerPos.position;
+            isShooting = false;
 
-        if (grappleLine != null)
-        {
-            grappleLine.enabled = false;
+            if (grappleLine != null)
+            {
+                grappleLine.enabled = false;
+            }
         }
     }
 
