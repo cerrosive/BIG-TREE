@@ -7,11 +7,12 @@ public class Jump : MonoBehaviour
     float JumpHeightNewtons = 400f;
     float GroundRayLength = 0.2f;
     Vector3 GroundRayStart = new Vector2(0, 0.1f);
-    Rigidbody Body;
+    Rigidbody2D Body;
 
     private void Start()
     {
-        Body = this.GetComponent<Rigidbody>();
+        Body = this.GetComponent<Rigidbody2D>();
+        Body.gravityScale = 5;
         if (FloorLayer == 0)
         {
             Debug.LogWarning(string.Format("Floor layer not set on {0}", this.gameObject.name));

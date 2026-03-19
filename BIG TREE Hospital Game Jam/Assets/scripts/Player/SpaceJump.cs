@@ -10,4 +10,11 @@ public class SpaceJump : MonoBehaviour
             body.gravityScale = 3;
         }
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "space")
+        {
+            body.gravityScale = 5;
+        }
+    }
 }
