@@ -25,6 +25,9 @@ public class grappleScript : MonoBehaviour
     //rendering
     public LineRenderer grappleLine;
 
+    public Rigidbody2D rb;
+    private bool turnOnGravity;
+
 
 
 
@@ -57,6 +60,12 @@ public class grappleScript : MonoBehaviour
         if (isGrappling)
         {
             PullPlayerToGrapplePoint();
+            rb.gravityScale = 0f;
+        }
+        else if (!isGrappling && turnOnGravity)
+        {
+            rb.gravityScale = 5f;
+            turnOnGravity = false;
         }
     }
 
@@ -207,6 +216,7 @@ public class grappleScript : MonoBehaviour
             grappleLine.SetPosition(1, grappleTarget);
         }
 
+
         if (Vector3.Distance(playerPos.position, grappleTarget) < 0.1f)
         {
             StopGrappling();
@@ -216,6 +226,7 @@ public class grappleScript : MonoBehaviour
     void StopGrappling()
     {
         isGrappling = false;
+        turnOnGravity = true;
         hookedPoint = null;
         grappleAim.position = playerPos.position;
 
