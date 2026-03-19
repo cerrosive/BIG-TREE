@@ -40,8 +40,10 @@ public class PlayerClimbing : MonoBehaviour
     {
         if (collision.CompareTag("Climb"))
         {
+            Debug.Log("triggered");
             isTree = false;
             isClimbing = false;
+            rb.gravityScale = 5f;
         }
     }
 }
