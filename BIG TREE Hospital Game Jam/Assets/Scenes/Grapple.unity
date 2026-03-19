@@ -241,7 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::grappleScript
   grapplePointLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1024
   grappleAim: {fileID: 49013122}
   playerPos: {fileID: 768725190}
   maxDistance: 5
@@ -424,7 +424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1394162480}
   - component: {fileID: 1394162479}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: grapple line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 1705566043}
   - component: {fileID: 1705566042}
   - component: {fileID: 1705566041}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: grapple point (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
