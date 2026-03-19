@@ -7,6 +7,5 @@ public class Collectible : MonoBehaviour
     {
             counterObject.GetComponent<CollectibleCounter>().CounterIncrease();
             Destroy(gameObject);
-        
     }
 }

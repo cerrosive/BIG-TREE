@@ -9,6 +9,7 @@ TagManager:
   - OneWayPlatform
   - space
   - Climb
+  - EndCat
   layers:
   - Default
   - TransparentFX
