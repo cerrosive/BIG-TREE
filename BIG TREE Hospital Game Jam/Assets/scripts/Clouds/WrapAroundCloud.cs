@@ -10,18 +10,18 @@ public class WrapAroundCloud : MonoBehaviour
         if (direction == "left")
         {
             transform.position = new Vector2(transform.position.x - speed * Time.deltaTime, transform.position.y);
-            if (transform.position.x < -20)
+            if (transform.position.x < -30)
             {
 
-                transform.position = new Vector2(20, transform.position.y);
+                transform.position = new Vector2(30, transform.position.y);
             }
         }
         if (direction == "right")
         {
             transform.position = new Vector2(transform.position.x + speed * Time.deltaTime, transform.position.y); ;
-            if (transform.position.x > 20)
+            if (transform.position.x > 30)
             {
-                transform.position = new Vector2(-20, transform.position.y);
+                transform.position = new Vector2(-30, transform.position.y);
             }
         }
 
