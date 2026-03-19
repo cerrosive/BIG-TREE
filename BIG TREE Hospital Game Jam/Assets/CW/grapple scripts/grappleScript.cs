@@ -147,7 +147,7 @@ public class grappleScript : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
 
-        if(!hooked)
+        if (!hooked)
         {
             yield return new WaitForSeconds(0.1f);
 
@@ -201,6 +201,6 @@ public class grappleScript : MonoBehaviour
         if (grappleLine != null)
         {
             grappleLine.enabled = false;
-        }    
+        }
     }
 }
