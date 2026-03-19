@@ -34,12 +34,16 @@ public class grappleScript : MonoBehaviour
         if (grappleLine != null)
         {
             grappleLine.enabled = false;
+            grappleLine.textureMode = LineTextureMode.Tile;
+            grappleLine.alignment = LineAlignment.View;
         }
 
         if (grappleAim != null)
         {
             grappleAim.position = playerPos.position;
         }
+
+        grappleAim.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -97,8 +101,17 @@ public class grappleScript : MonoBehaviour
         //shoot
         while (t < 1)
         {
+            grappleAim.GetComponent<SpriteRenderer>().enabled = true;
+
+
             t += Time.deltaTime * grappleSpeed;
             grappleAim.position = Vector3.Lerp(startPos, grappleTarget, t);
+
+
+            Vector2 moveDirection = (grappleAim.position - playerPos.position).normalized;
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            grappleAim.rotation = Quaternion.Euler(0, 0, angle);
+
 
             if (grappleLine != null)
             {
@@ -174,6 +187,8 @@ public class grappleScript : MonoBehaviour
             {
                 grappleLine.enabled = false;
             }
+
+            grappleAim.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 
@@ -186,6 +201,12 @@ public class grappleScript : MonoBehaviour
             pullSpeed * Time.deltaTime
         );
 
+        if (grappleLine != null )
+        {
+            grappleLine.SetPosition(0, playerPos.position);
+            grappleLine.SetPosition(1, grappleTarget);
+        }
+
         if (Vector3.Distance(playerPos.position, grappleTarget) < 0.1f)
         {
             StopGrappling();
@@ -197,6 +218,8 @@ public class grappleScript : MonoBehaviour
         isGrappling = false;
         hookedPoint = null;
         grappleAim.position = playerPos.position;
+
+        grappleAim.GetComponent<SpriteRenderer>().enabled = false;
 
         if (grappleLine != null)
         {
