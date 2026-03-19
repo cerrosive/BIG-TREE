@@ -28,7 +28,7 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "dd5a0fe2-19d4-4be1-a64f-c0c0e2da01e0",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -46,6 +46,15 @@
                     "name": "Drop",
                     "type": "Button",
                     "id": "f914dd0c-27c2-4f0f-8bba-7988921e6dbd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "f433a64f-5ece-4f8b-90b4-5a367dc1aeaf",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -292,6 +301,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Drop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39d6f84d-a366-4bde-9664-5bacafea116b",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

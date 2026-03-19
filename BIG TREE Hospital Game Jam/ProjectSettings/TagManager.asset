@@ -8,6 +8,7 @@ TagManager:
   - Floor
   - OneWayPlatform
   - space
+  - Climb
   layers:
   - Default
   - TransparentFX
